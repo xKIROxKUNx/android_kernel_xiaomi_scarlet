@@ -15,7 +15,8 @@ msm_kgsl_core-y = \
 	kgsl_gmu.o \
 	kgsl_rgmu.o \
 	kgsl_hfi.o \
-	kgsl_timeline.o
+	kgsl_timeline.o \
+	kgsl_util.o
 
 msm_kgsl_core-$(CONFIG_TRACEPOINTS) += kgsl_trace.o
 msm_kgsl_core-$(CONFIG_QCOM_KGSL_IOMMU) += kgsl_iommu.o
