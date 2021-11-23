@@ -125,6 +125,7 @@ static const struct adreno_a5xx_core adreno_gpu_core_a530v2 = {
 		.gmem_size = SZ_1M,
 		.busy_mask = 0xfffffffe,
 		.bus_width = 32,
+		.snapshot_size = SZ_1M,
 	},
 	.gpmu_tsens = 0x00060007,
 	.max_power = 5448,
@@ -137,6 +138,7 @@ static const struct adreno_a5xx_core adreno_gpu_core_a530v2 = {
 	.hwcg_count = ARRAY_SIZE(a530_hwcg_regs),
 	.vbif = a530_vbif_regs,
 	.vbif_count = ARRAY_SIZE(a530_vbif_regs),
+	.highest_bank_bit = 15,
 };
 
 static const struct adreno_a5xx_core adreno_gpu_core_a530v3 = {
@@ -149,6 +151,7 @@ static const struct adreno_a5xx_core adreno_gpu_core_a530v3 = {
 		.gmem_size = SZ_1M,
 		.busy_mask = 0xfffffffe,
 		.bus_width = 32,
+		.snapshot_size = SZ_1M,
 	},
 	.gpmu_tsens = 0x00060007,
 	.max_power = 5448,
@@ -161,6 +164,7 @@ static const struct adreno_a5xx_core adreno_gpu_core_a530v3 = {
 	.hwcg_count = ARRAY_SIZE(a530_hwcg_regs),
 	.vbif = a530_vbif_regs,
 	.vbif_count = ARRAY_SIZE(a530_vbif_regs),
+	.highest_bank_bit = 15,
 };
 
 /* For a505, a506 and a508 */
@@ -231,6 +235,7 @@ static const struct adreno_a5xx_core adreno_gpu_core_a505 = {
 		.gmem_size = (SZ_128K + SZ_8K),
 		.busy_mask = 0xfffffffe,
 		.bus_width = 16,
+		.snapshot_size = SZ_1M,
 	},
 	.pm4fw_name = "a530_pm4.fw",
 	.pfpfw_name = "a530_pfp.fw",
@@ -250,6 +255,7 @@ static const struct adreno_a5xx_core adreno_gpu_core_a506 = {
 		.gmem_size = (SZ_128K + SZ_8K),
 		.busy_mask = 0xfffffffe,
 		.bus_width = 16,
+		.snapshot_size = SZ_1M,
 	},
 	.pm4fw_name = "a530_pm4.fw",
 	.pfpfw_name = "a530_pfp.fw",
@@ -258,6 +264,7 @@ static const struct adreno_a5xx_core adreno_gpu_core_a506 = {
 	.hwcg_count = ARRAY_SIZE(a50x_hwcg_regs),
 	.vbif = a530_vbif_regs,
 	.vbif_count = ARRAY_SIZE(a530_vbif_regs),
+	.highest_bank_bit = 14,
 };
 
 static const struct adreno_reglist a510_hwcg_regs[] = {
@@ -326,6 +333,7 @@ static const struct adreno_a5xx_core adreno_gpu_core_a510 = {
 		.gmem_size = SZ_256K,
 		.busy_mask = 0xfffffffe,
 		.bus_width = 16,
+		.snapshot_size = SZ_1M,
 	},
 	.pm4fw_name = "a530_pm4.fw",
 	.pfpfw_name = "a530_pfp.fw",
@@ -448,6 +456,7 @@ static const struct adreno_a5xx_core adreno_gpu_core_a540v2 = {
 		.gmem_size = SZ_1M,
 		.busy_mask = 0xfffffffe,
 		.bus_width = 32,
+		.snapshot_size = SZ_1M,
 	},
 	.gpmu_tsens = 0x000c000d,
 	.max_power = 5448,
@@ -459,6 +468,7 @@ static const struct adreno_a5xx_core adreno_gpu_core_a540v2 = {
 	.hwcg_count = ARRAY_SIZE(a540_hwcg_regs),
 	.vbif = a540_vbif_regs,
 	.vbif_count = ARRAY_SIZE(a540_vbif_regs),
+	.highest_bank_bit = 15,
 };
 
 static const struct adreno_reglist a512_hwcg_regs[] = {
@@ -529,6 +539,7 @@ static const struct adreno_a5xx_core adreno_gpu_core_a512 = {
 		.gmem_size = (SZ_256K + SZ_16K),
 		.busy_mask = 0xfffffffe,
 		.bus_width = 32,
+		.snapshot_size = SZ_1M,
 	},
 	.pm4fw_name = "a530_pm4.fw",
 	.pfpfw_name = "a530_pfp.fw",
@@ -537,6 +548,7 @@ static const struct adreno_a5xx_core adreno_gpu_core_a512 = {
 	.hwcg_count = ARRAY_SIZE(a512_hwcg_regs),
 	.vbif = a540_vbif_regs,
 	.vbif_count = ARRAY_SIZE(a540_vbif_regs),
+	.highest_bank_bit = 14,
 };
 
 static const struct adreno_a5xx_core adreno_gpu_core_a508 = {
@@ -548,6 +560,7 @@ static const struct adreno_a5xx_core adreno_gpu_core_a508 = {
 		.gmem_size = (SZ_128K + SZ_8K),
 		.busy_mask = 0xfffffffe,
 		.bus_width = 32,
+		.snapshot_size = SZ_1M,
 	},
 	.pm4fw_name = "a530_pm4.fw",
 	.pfpfw_name = "a530_pfp.fw",
@@ -556,6 +569,7 @@ static const struct adreno_a5xx_core adreno_gpu_core_a508 = {
 	.hwcg_count = ARRAY_SIZE(a50x_hwcg_regs),
 	.vbif = a530_vbif_regs,
 	.vbif_count = ARRAY_SIZE(a530_vbif_regs),
+	.highest_bank_bit = 14,
 };
 
 static const struct adreno_a5xx_core adreno_gpu_core_a509 = {
@@ -567,6 +581,7 @@ static const struct adreno_a5xx_core adreno_gpu_core_a509 = {
 		.gmem_size = (SZ_256K + SZ_16K),
 		.busy_mask = 0xfffffffe,
 		.bus_width = 32,
+		.snapshot_size = SZ_1M,
 	},
 	.pm4fw_name = "a530_pm4.fw",
 	.pfpfw_name = "a530_pfp.fw",
@@ -575,6 +590,7 @@ static const struct adreno_a5xx_core adreno_gpu_core_a509 = {
 	.hwcg_count = ARRAY_SIZE(a512_hwcg_regs),
 	.vbif = a540_vbif_regs,
 	.vbif_count = ARRAY_SIZE(a540_vbif_regs),
+	.highest_bank_bit = 14,
 };
 
 static const struct adreno_gpu_core *adreno_gpulist[] = {

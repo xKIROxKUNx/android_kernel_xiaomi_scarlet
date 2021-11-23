@@ -49,9 +49,6 @@ static struct adreno_device device_3d0 = {
 		.pwrscale = KGSL_PWRSCALE_INIT(&adreno_tz_data),
 		.name = DEVICE_3D0_NAME,
 		.id = KGSL_DEVICE_3D0,
-		.pwrctrl = {
-			.irq_name = "kgsl_3d0_irq",
-		},
 		.iomemname = "kgsl_3d0_reg_memory",
 		.ftbl = &adreno_functable,
 	},
@@ -1071,15 +1068,6 @@ static int adreno_of_get_power(struct adreno_device *adreno_dev,
 	struct kgsl_device *device = KGSL_DEVICE(adreno_dev);
 	struct device_node *node = pdev->dev.of_node;
 	struct resource *res;
-	unsigned int timeout;
-
-	if (of_property_read_string(node, "label", &pdev->name)) {
-		dev_err(device->dev, "Unable to read 'label'\n");
-		return -EINVAL;
-	}
-
-	if (adreno_of_read_property(device->dev, node, "qcom,id", &pdev->id))
-		return -EINVAL;
 
 	/* Get starting physical address of device registers */
 	res = platform_get_resource_byname(device->pdev, IORESOURCE_MEM,
@@ -1116,10 +1104,8 @@ static int adreno_of_get_power(struct adreno_device *adreno_dev,
 		&device->pwrctrl.pm_qos_wakeup_latency))
 		device->pwrctrl.pm_qos_wakeup_latency = 100;
 
-	if (of_property_read_u32(node, "qcom,idle-timeout", &timeout))
-		timeout = 64;
-
-	device->pwrctrl.interval_timeout = msecs_to_jiffies(timeout);
+	/* Default timeout is 80 ms across all targets */
+	device->pwrctrl.interval_timeout = msecs_to_jiffies(64);
 
 	device->pwrctrl.bus_control = of_property_read_bool(node,
 		"qcom,bus-control");
@@ -1314,6 +1300,7 @@ static int adreno_probe(struct platform_device *pdev)
 	struct kgsl_device *device;
 	int status;
 	unsigned int priv;
+	u32 size;
 
 	of_id = of_match_device(adreno_match_table, &pdev->dev);
 	if (!of_id)
@@ -1412,6 +1399,19 @@ static int adreno_probe(struct platform_device *pdev)
 
 	if (status)
 		goto out;
+
+	/* Initialize the snapshot engine */
+	size = adreno_dev->gpucore->snapshot_size;
+
+	/*
+	 * Use a default size if one wasn't specified, but print a warning so
+	 * the developer knows to fix it
+	 */
+
+	if (WARN(!size, "The snapshot size was not specified in the gpucore\n"))
+		size = SZ_1M;
+
+	kgsl_device_snapshot_probe(device, size);
 
 	status = adreno_ringbuffer_probe(adreno_dev);
 	if (status)
@@ -3937,7 +3937,7 @@ static struct platform_driver adreno_platform_driver = {
 	.resume = kgsl_resume_driver,
 	.id_table = adreno_id_table,
 	.driver = {
-		.name = DEVICE_3D_NAME,
+		.name = "kgsl-3d",
 		.pm = &kgsl_pm_ops,
 		.of_match_table = adreno_match_table,
 		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
