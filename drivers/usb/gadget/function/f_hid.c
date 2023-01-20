@@ -738,7 +738,7 @@ static int hidg_setup(struct usb_function *f,
 		  | HID_REQ_SET_REPORT):
 		VDBG(cdev, "set_report | wLength=%d\n", ctrl->wLength);
 		req->context = hidg;
-		req->complete = hidg_set_report_complete;
+		req->complete = hidg_intout_complete;
 		goto respond;
 		break;
 
